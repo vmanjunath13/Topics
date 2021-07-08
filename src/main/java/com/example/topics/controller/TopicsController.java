@@ -1,26 +1,44 @@
 package com.example.topics.controller;
 
 import com.example.topics.model.entity.Topic;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.topics.service.TopicService;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@RequestMapping("/topics")
 public class TopicsController {
 
-    @RequestMapping("/hello")
-    public String sayHello() {
-        return "Hello World!";
+    private final TopicService topicService;
+
+    public TopicsController(TopicService topicService) {
+        this.topicService = topicService;
     }
 
-    @RequestMapping("/topics")
-    public List<Topic> getALlTopics() {
-        return Arrays.asList(
-                new Topic("spring", "spring framework", "spring framework desc"),
-                new Topic("springboot", "spring boot framework", "spring boot framework desc"),
-                new Topic("java", "java", "java desc")
-        );
+    @GetMapping
+    public List<Topic> getAllTopics() {
+        return topicService.findAllTopics();
     }
+
+    @GetMapping("/{id}")
+    public Topic getTopicById(@PathVariable String id) {
+        return topicService.findTopicById(id);
+    }
+
+    @PostMapping(value = "/add")
+    public String addTopic(@RequestBody Topic topic) {
+       return topicService.addTopic(topic) ? "Topic added successfully!" : "Please try again";
+    }
+
+    @PutMapping(value = "/update/{id}")
+    public String updateTopic(@RequestBody Topic topic, @PathVariable String id) {
+        return topicService.updateTopic(topic, id) ? "Topic updated successfully!" : "Please try again";
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public String deleteTopic(@PathVariable String id) {
+        return topicService.deleteTopic(id) ? "Topic deleted successfully!" : "Please try again";
+    }
+
 }
