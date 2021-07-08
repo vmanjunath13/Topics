@@ -1,31 +1,27 @@
 package com.example.topics.model.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Data
-@Table(name = "Topic")
-public class Topic {
+@Table(name = "Course")
+public class Course {
 
     @Id
     private String id;
     private String name;
     private String description;
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Topic topic;
 
-    public Topic() {
-
-    }
-
-    public Topic(String id, String name, String description) {
+    public Course(String id, String name, String description, String topicId) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.topic = new Topic(topicId, "", "");
+    }
+
+    public Course() {
+
     }
 
     public String getId() {
@@ -50,5 +46,13 @@ public class Topic {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 }
