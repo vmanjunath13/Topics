@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface TopicService {
 
-    List<Topic> findAllTopics();
-    Topic findTopicById(String id);
-    boolean addTopic(Topic topic);
-    boolean updateTopic(Topic topic, String id);
-    boolean deleteTopic(String id);
+//    List<Topic> findAllTopics();
+//    Topic findTopicById(String id);
+//    boolean addTopic(Topic topic);
+//    boolean updateTopic(Topic topic, String id);
+//    boolean deleteTopic(String id);
 }

@@ -1,14 +1,20 @@
 package com.example.topics.service;
 
 import com.example.topics.model.entity.Topic;
+import com.example.topics.repository.TopicRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TopicServiceImplementation implements TopicService {
+
+    private final TopicRepository topicRepository;
+
+
 
     private List<Topic> topicsList = new ArrayList<>(Arrays.asList(
             new Topic("spring", "spring framework", "spring framework desc"),
@@ -16,35 +22,35 @@ public class TopicServiceImplementation implements TopicService {
             new Topic("java", "java", "java desc")
     ));
 
-    @Override
+    public TopicServiceImplementation(TopicRepository topicRepository) {
+        this.topicRepository = topicRepository;
+    }
+
     public List<Topic> findAllTopics() {
-        return topicsList;
+        return new ArrayList<>(topicRepository.findAll());
     }
 
-    @Override
-    public Topic findTopicById(String id) {
-        return topicsList.stream().filter(t -> id.equals(t.getId())).findFirst().get();
+
+    public Optional<Topic> findTopicById(String id) {
+        return topicRepository.findById(id);
     }
 
-    @Override
+
     public boolean addTopic(Topic topic) {
-        return topicsList.add(topic);
+        topicRepository.save(topic);
+        return true;
     }
 
-    @Override
+
     public boolean updateTopic(Topic topic, String id) {
-        for (int i = 0; i < topicsList.size(); i++) {
-            if(topicsList.get(i).getId().equals(id)) {
-                topicsList.set(i, topic);
-                return true;
-            }
-        }
-        return false;
+        topicRepository.save(topic);
+        return true;
     }
 
-    @Override
+
     public boolean deleteTopic(String id) {
-        return topicsList.removeIf(t -> id.equals(t.getId()));
+        topicRepository.deleteById(id);
+        return true;
     }
 
 

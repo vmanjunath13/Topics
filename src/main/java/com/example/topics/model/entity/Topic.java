@@ -1,7 +1,14 @@
 package com.example.topics.model.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Topic")
 public class Topic {
 
+    @Id
     private String id;
     private String name;
     private String description;
@@ -10,6 +17,10 @@ public class Topic {
         this.id = id;
         this.name = name;
         this.description = description;
+    }
+
+    public Topic() {
+
     }
 
     public String getId() {

@@ -1,18 +1,19 @@
 package com.example.topics.controller;
 
 import com.example.topics.model.entity.Topic;
-import com.example.topics.service.TopicService;
+import com.example.topics.service.TopicServiceImplementation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topics")
 public class TopicsController {
 
-    private final TopicService topicService;
+    private final TopicServiceImplementation topicService;
 
-    public TopicsController(TopicService topicService) {
+    public TopicsController(TopicServiceImplementation topicService) {
         this.topicService = topicService;
     }
 
@@ -22,7 +23,7 @@ public class TopicsController {
     }
 
     @GetMapping("/{id}")
-    public Topic getTopicById(@PathVariable String id) {
+    public Optional<Topic> getTopicById(@PathVariable String id) {
         return topicService.findTopicById(id);
     }
 
